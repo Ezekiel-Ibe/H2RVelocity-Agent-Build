@@ -1,11 +1,11 @@
-# H2RVelocity-Agent-Build
+# 🚀 H2RVelocity-Agent-Build
 Hire to Retire Agent Development 
 
 A Microsoft AI Foundry and Microsoft Fabric-based multi-agent platform for continuous payroll assurance and hire-to-retire operational governance.
 
-## Project purpose
+## 🎯 Project purpose
 
-H2RVelocity-Agent-Build is designed to automate and govern payroll exception handling across the hire-to-retire lifecycle. The project models a set of specialist AI agents that work together to collect payroll data, validate inputs, detect anomalies, assess risk, recommend corrective actions, enforce governance controls, and maintain an immutable audit trail.
+H2RVelocity-Agent-Build is designed to automate and govern payroll exception handling across the hire-to-retire lifecycle. The project models a set of specialist AI agents that work together to collect, analyze, and remediate payroll exceptions while maintaining segregation of duties and governance controls.
 
 The solution is intended for enterprise HR and payroll operations teams that need:
 
@@ -15,7 +15,7 @@ The solution is intended for enterprise HR and payroll operations teams that nee
 - traceability for compliance and internal governance
 - integration with Azure AI Foundry and Fabric for production-ready deployment
 
-## Main features
+## ⭐ Main features
 
 - Multi-agent workflow spanning nine capability agents from workspace orchestration to governance sign-off
 - Continuous payroll assurance pipeline for payroll runs and periods
@@ -28,7 +28,7 @@ The solution is intended for enterprise HR and payroll operations teams that nee
 - Azure AI Foundry registration for agent deployment
 - Microsoft Fabric connectivity for enterprise data access and telemetry
 
-### Core agent set
+### 👥 Core agent set
 
 The project includes the following agents:
 
@@ -42,7 +42,7 @@ The project includes the following agents:
 - A08 - Governance Audit Agent
 - A09 - Human Approval Agent
 
-## How to run locally
+## 🏃 How to run locally
 
 1. Clone the repository:
 
@@ -80,9 +80,9 @@ The project includes the following agents:
 
 The default execution simulates a payroll run and prints the anomaly register, period risk summary, and governance telemetry output.
 
-## Environment and setup steps
+## ⚙️ Environment and setup steps
 
-### Required configuration
+### 📋 Required configuration
 
 The project loads environment variables from a `.env` file using `python-dotenv`. The repository includes a sample configuration in `.env.example`.
 
@@ -112,18 +112,18 @@ Example environment values are defined in `.env.example` and include:
 - `GROSS_VARIANCE_TOLERANCE_PCT`
 - `PERIOD_RISK_HIGH_THRESHOLD`
 
-### Local prerequisites
+### 📦 Local prerequisites
 
 - Python 3.10+
 - Azure CLI authentication for service access (if connecting to live resources)
 - Access to the target Azure AI Foundry project and Microsoft Fabric environment
 - Appropriate RBAC permissions for the tenant and data platform
 
-## Deployment details
+## 🚀 Deployment details
 
 This repository is structured for deployment in an Azure-based enterprise environment, with AI capability deployment and data plane access separated from orchestration logic.
 
-### Deployment model
+### 📐 Deployment model
 
 - Azure AI Foundry is used to register and manage the nine capability agents.
 - Microsoft Fabric provides the data warehouse context and operational data layer.
@@ -134,11 +134,11 @@ This repository is structured for deployment in an Azure-based enterprise enviro
   python -m src.deployment.deploy_foundry_agents
   ```
 
-### Runtime behaviour
+### ⚡ Runtime behaviour
 
-When Azure connectivity is available, the system registers the full set of agents in the target AI Foundry project. If live endpoints are unavailable, the application falls back to a local simulation mode so the workflow can still run for testing and environment validation.
+When Azure connectivity is available, the system registers the full set of agents in the target AI Foundry project. If live endpoints are unavailable, the application falls back to a local simulation mode.
 
-### Governance and compliance
+### 🛡️ Governance and compliance
 
 The implementation is built with controls for:
 
@@ -147,7 +147,7 @@ The implementation is built with controls for:
 - immutable evidence packs and hash validation
 - compliance-oriented audit logging for payroll assurance decisions
 
-## Contact and contributors
+## 📞 Contact and contributors
 
 This project is maintained under the `Ezekiel-Ibe/H2RVelocity-Agent-Build` repository.
 
@@ -159,7 +159,7 @@ For questions, issues, or updates:
 
 Contributions are welcome for documentation improvements, workflow enhancements, governance controls, and deployment automation.
 
-## Repository structure
+## 📁 Repository structure
 
 ```text
 .
@@ -179,4 +179,3 @@ Contributions are welcome for documentation improvements, workflow enhancements,
 ├── Agent Factory Stages/
 └── AgentFactoryStages-Diagrams/
 ```
-
