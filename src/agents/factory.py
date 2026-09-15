@@ -4,6 +4,7 @@ Instantiates and binds the 9 capability agents to Azure AI Foundry projects and 
 """
 import os
 import logging
+from pathlib import Path
 from typing import Dict, Any, Optional
 from src.config.settings import settings
 from src.agents.a01_workspace_agent import PayrollAssuranceWorkspaceAgent
@@ -54,35 +55,39 @@ class FoundryAgentFactory:
         try:
             from azure.identity import DefaultAzureCredential
             from azure.ai.projects import AIProjectClient
+            from azure.ai.projects.models import PromptAgentDefinition
 
-            project_client = AIProjectClient.from_connection_string(
-                conn_str=f"{self.settings.azure_subscription_id};{self.settings.azure_resource_group};{self.settings.foundry_project_name}",
+            project_client = AIProjectClient(
+                endpoint=self.settings.foundry_endpoint,
                 credential=DefaultAzureCredential()
             )
 
             agent_meta = [
-                ("A01_Workspace", "src/agents/prompts/a01_workspace.md", "gpt-4o"),
-                ("A02_Orchestrator", "src/agents/prompts/a02_orchestrator.md", "gpt-4o"),
-                ("A03_DataManagement", "src/agents/prompts/a03_data_management.md", "gpt-4o-mini"),
-                ("A04_ExceptionProcessing", "src/agents/prompts/a04_exception_processing.md", "gpt-4o-mini"),
-                ("A05_Analysis", "src/agents/prompts/a05_analysis.md", "gpt-4o"),
-                ("A06_DecisionIntelligence", "src/agents/prompts/a06_decision_intelligence.md", "gpt-4o"),
-                ("A07_QualityControl", "src/agents/prompts/a07_quality_control.md", "gpt-4o-mini"),
-                ("A08_GovernanceAudit", "src/agents/prompts/a08_governance_audit.md", "gpt-4o-mini"),
-                ("A09_HumanApproval", "src/agents/prompts/a09_human_approval.md", "gpt-4o-mini")
+                ("a01-workspace", "a01_workspace.md"),
+                ("a02-orchestrator", "a02_orchestrator.md"),
+                ("a03-data-management", "a03_data_management.md"),
+                ("a04-exception-processing", "a04_exception_processing.md"),
+                ("a05-analysis", "a05_analysis.md"),
+                ("a06-decision-intelligence", "a06_decision_intelligence.md"),
+                ("a07-quality-control", "a07_quality_control.md"),
+                ("a08-governance-audit", "a08_governance_audit.md"),
+                ("a09-human-approval", "a09_human_approval.md")
             ]
 
-            for name, prompt_path, model in agent_meta:
-                if os.path.exists(prompt_path):
-                    with open(prompt_path, "r", encoding="utf-8") as f:
-                        instructions = f.read()
-                else:
-                    instructions = f"Capability agent {name}"
+            prompt_dir = Path(__file__).resolve().parent / "prompts"
+            for name, prompt_file in agent_meta:
+                prompt_path = prompt_dir / prompt_file
+                if not prompt_path.exists():
+                    raise FileNotFoundError(f"Missing prompt file for {name}: {prompt_path}")
 
-                agent = project_client.agents.create_agent(
-                    model=model,
-                    name=name,
-                    instructions=instructions
+                instructions = prompt_path.read_text(encoding="utf-8")
+
+                agent = project_client.agents.create_version(
+                    agent_name=name,
+                    definition=PromptAgentDefinition(
+                        model=self.settings.foundry_model_deployment,
+                        instructions=instructions
+                    )
                 )
                 registered[name] = agent.id
                 logger.info(f"Registered {name} with Foundry ID: {agent.id}")
@@ -90,20 +95,11 @@ class FoundryAgentFactory:
             return {"status": "SUCCESS", "registered_agents": registered}
 
         except Exception as e:
-            logger.warning(f"Could not connect to live Azure AI Foundry Project ({e}). Registered in local simulation mode.")
-            return {
-                "status": "LOCAL_SIMULATION",
-                "registered_agents": {
-                    "A01": "local-foundry-a01",
-                    "A02": "local-foundry-a02",
-                    "A03": "local-foundry-a03",
-                    "A04": "local-foundry-a04",
-                    "A05": "local-foundry-a05",
-                    "A06": "local-foundry-a06",
-                    "A07": "local-foundry-a07",
-                    "A08": "local-foundry-a08",
-                    "A09": "local-foundry-a09"
-                }
-            }
+            logger.error("Microsoft Foundry agent registration failed: %s", e)
+            if not self.settings.allow_local_simulation:
+                raise RuntimeError("Microsoft Foundry agent registration failed") from e
+
+            logger.warning("Continuing in local simulation mode because FOUNDRY_ALLOW_LOCAL_SIMULATION=true")
+            return {"status": "LOCAL_SIMULATION", "registered_agents": {f"A0{i}": f"local-foundry-a0{i}" for i in range(1, 10)}}
 
 agent_factory = FoundryAgentFactory()

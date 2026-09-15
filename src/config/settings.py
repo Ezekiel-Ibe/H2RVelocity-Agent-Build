@@ -11,7 +11,7 @@ load_dotenv()
 class AppSettings(BaseModel):
     # Azure Configuration
     azure_tenant_id: str = Field(
-        default=os.getenv("AZURE_TENANT_ID", "mbsukdemo.com")
+        default=os.getenv("AZURE_TENANT_ID", "158c1923-e3c9-4a15-84ab-d9f31d47b681")
     )
     azure_subscription_id: str = Field(
         default=os.getenv("AZURE_SUBSCRIPTION_ID", "853a151d-93f2-492d-aaa3-2058ce27e753")
@@ -20,21 +20,27 @@ class AppSettings(BaseModel):
         default=os.getenv("AZURE_RESOURCE_GROUP", "bsdevVelocityAI2")
     )
     azure_location: str = Field(
-        default=os.getenv("AZURE_LOCATION", "uksouth")
+        default=os.getenv("AZURE_LOCATION", "westus2")
     )
 
     # Azure AI Foundry Configuration
     foundry_project_name: str = Field(
-        default=os.getenv("AZURE_AI_FOUNDRY_PROJECT_NAME", "bsdev-velocity-foundry-proj")
+        default=os.getenv("AZURE_AI_FOUNDRY_PROJECT_NAME", "velocity-h2r-proj")
     )
     foundry_endpoint: str = Field(
-        default=os.getenv("AZURE_AI_FOUNDRY_ENDPOINT", "https://bsdev-velocity-foundry-proj.services.ai.azure.com/api/v1")
+        default=os.getenv(
+            "AZURE_AI_FOUNDRY_ENDPOINT",
+            "https://velocity-h2r-proj-resource.services.ai.azure.com/api/projects/velocity-h2r-proj"
+        )
     )
     foundry_model_deployment: str = Field(
-        default=os.getenv("AZURE_AI_MODEL_DEPLOYMENT_NAME", "gpt-4o")
+        default=os.getenv("AZURE_AI_MODEL_DEPLOYMENT_NAME", "model-router")
     )
     foundry_embedding_deployment: str = Field(
-        default=os.getenv("AZURE_AI_EMBEDDING_DEPLOYMENT_NAME", "text-embedding-3-large")
+        default=os.getenv("AZURE_AI_EMBEDDING_DEPLOYMENT_NAME", "text-embedding-3-small")
+    )
+    allow_local_simulation: bool = Field(
+        default=os.getenv("FOUNDRY_ALLOW_LOCAL_SIMULATION", "false").lower() == "true"
     )
 
     # Microsoft Fabric Connection

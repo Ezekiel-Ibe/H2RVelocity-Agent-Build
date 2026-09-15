@@ -1,7 +1,7 @@
 """
 A04: Payroll Exception Processing Agent (Task Layer)
 """
-from typing import Dict, Any, List
+from typing import Dict, Any, List, Optional
 from src.config.constants import AgentID, AnomalyClass
 from src.core.deterministic_rules import DeterministicCoreEngine
 

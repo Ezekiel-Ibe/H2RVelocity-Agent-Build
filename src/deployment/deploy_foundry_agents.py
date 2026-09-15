@@ -23,7 +23,10 @@ def main():
 
     result = agent_factory.register_agents_with_azure_ai_foundry()
     logger.info(f"Deployment Result: {result}")
-    logger.info("All 9 Capability Agents successfully registered in AI Foundry estate.")
+    if result["status"] != "SUCCESS":
+        raise RuntimeError(f"Foundry deployment did not complete successfully: {result['status']}")
+
+    logger.info("All 9 Capability Agents successfully registered in Microsoft Foundry.")
 
 if __name__ == "__main__":
     main()
