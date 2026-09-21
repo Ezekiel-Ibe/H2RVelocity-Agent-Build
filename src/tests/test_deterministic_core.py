@@ -8,6 +8,11 @@ from src.core.governance_core import GovernanceCore
 from src.config.constants import AnomalyClass, Severity
 from src.fabric.repository import fabric_repo
 
+@pytest.fixture(autouse=True)
+def _force_benchmark_fixture(monkeypatch):
+    """These UTs assert against the fixed 7-anomaly benchmark fixture, so bypass any live Fabric connection."""
+    monkeypatch.setattr(fabric_repo.conn_mgr, "get_connection", lambda: None)
+
 def test_ut01_input_completeness_valid():
     """UT-01: Valid dataset passes completeness check."""
     fixture = fabric_repo.fetch_payroll_assurance_dataset("PR-2026-06", "2026-06")

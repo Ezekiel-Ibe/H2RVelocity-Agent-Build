@@ -4,6 +4,12 @@ End-to-End Orchestration Integration Test across A01 to A09 (W01 - W20).
 import pytest
 from src.orchestration.workflow_runner import workflow_runner
 from src.config.constants import CaseState
+from src.fabric.repository import fabric_repo
+
+@pytest.fixture(autouse=True)
+def _force_benchmark_fixture(monkeypatch):
+    """This E2E test asserts against the fixed 7-anomaly benchmark fixture, so bypass any live Fabric connection."""
+    monkeypatch.setattr(fabric_repo.conn_mgr, "get_connection", lambda: None)
 
 def test_full_payroll_assurance_workflow_execution():
     """

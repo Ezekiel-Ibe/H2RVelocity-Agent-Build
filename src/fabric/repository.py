@@ -3,44 +3,143 @@ Fabric Repository for querying canonical Silver/Gold datasets and writing audit 
 """
 import hashlib
 import json
+import logging
 from typing import List, Dict, Any, Optional
 from src.fabric.connection import fabric_conn
+
+logger = logging.getLogger("fabric_repository")
 
 class FabricRepository:
     def __init__(self):
         self.conn_mgr = fabric_conn
 
+    def get_table_catalog(self) -> List[Dict[str, str]]:
+        """Return the governed Fabric table catalog used by the capability agents."""
+        conn = self.conn_mgr.get_connection()
+        if conn:
+            try:
+                cursor = conn.cursor()
+                cursor.execute("""
+                    SELECT TABLE_SCHEMA, TABLE_NAME, TABLE_TYPE
+                    FROM INFORMATION_SCHEMA.TABLES
+                    WHERE TABLE_TYPE = 'BASE TABLE'
+                    ORDER BY TABLE_SCHEMA, TABLE_NAME
+                """)
+                columns = [column[0].lower() for column in cursor.description]
+                tables = [dict(zip(columns, row)) for row in cursor.fetchall()]
+                cursor.close()
+                conn.close()
+                return tables
+            except Exception as e:
+                logger.warning("Could not read Fabric table catalog: %s", e)
+
+        # Fallback catalog mirrors the real edm_wh_dev payroll assurance tables/views
+        return [
+            {"table_schema": schema, "table_name": table, "table_type": "BASE TABLE"}
+            for schema, table in (
+                ("silver", "worker"),
+                ("silver", "employment"),
+                ("silver", "payroll_run"),
+                ("silver", "payroll_line"),
+                ("silver", "pay_period"),
+                ("silver", "payroll_case"),
+                ("silver", "payroll_anomaly"),
+                ("silver", "payroll_correction"),
+                ("silver", "payroll_correction_option"),
+                ("gold", "fact_payroll_case"),
+                ("gold", "fact_payroll_anomaly"),
+                ("gold", "fact_payroll_correction"),
+                ("gold", "fact_audit_evidence"),
+                ("gold", "vw_h03_payroll_collection_queue"),
+                ("gold", "vw_h03_recalc_queue"),
+            )
+        ]
+
+    def get_agent_data_context(self) -> str:
+        """Format the Fabric catalog and access boundary for Foundry agent instructions."""
+        table_lines = "\n".join(
+            f"- {table['table_schema']}.{table['table_name']}"
+            for table in self.get_table_catalog()
+        )
+        return (
+            "\n\n## Fabric Data Contract\n"
+            f"Warehouse: {self.conn_mgr.database}\n"
+            "Live Fabric reads and writes are performed by the governed A03 data-management "
+            "application path. Do not invent table names or bypass A03 approval controls.\n"
+            "Available tables:\n"
+            f"{table_lines}"
+        )
+
     def fetch_payroll_assurance_dataset(self, payroll_run_id: str, period_id: str) -> Dict[str, Any]:
         """
-        Fetches workers, current pay items, prior pay items, time records, and lifecycle events.
+        Fetches workers and aggregated pay items (current vs prior period) from the live
+        edm_wh_dev warehouse (silver.worker / silver.employment / silver.payroll_line).
         """
         conn = self.conn_mgr.get_connection()
         if conn:
             try:
                 cursor = conn.cursor()
-                # Query Silver tables
+                # Canonical worker master, joined to the current employment record for pay_group/fte
+                # (some workers have multiple "current" employment rows in edm_wh_dev, so pick the latest)
                 cursor.execute("""
-                    SELECT worker_id, worker_type, status, hire_date, term_date, pay_group, fte, has_approved_comp_change
-                    FROM silver.dim_worker
+                    SELECT w.worker_id, w.worker_type, w.worker_status AS status,
+                           w.hire_date, w.termination_date AS term_date,
+                           e.employment_type AS pay_group, e.fte
+                    FROM silver.worker w
+                    OUTER APPLY (
+                        SELECT TOP 1 employment_type, fte
+                        FROM silver.employment e
+                        WHERE e.worker_id = w.worker_id AND e.fabric_current_indicator = 1
+                        ORDER BY e.start_date DESC, e.employment_key DESC
+                    ) e
+                    WHERE w.fabric_current_indicator = 1
                 """)
                 worker_cols = [column[0] for column in cursor.description]
                 workers = [dict(zip(worker_cols, row)) for row in cursor.fetchall()]
+                for w in workers:
+                    w["status"] = (w.get("status") or "").lower()
+                    # Approved compensation changes are not tracked at pay-line grain in edm_wh_dev
+                    w["has_approved_comp_change"] = False
 
+                # Pay lines are stored per pay element (BASE_PAY/OVERTIME/etc.); aggregate to
+                # one pay item per worker/run/period to match the assurance rule engine's shape.
                 cursor.execute("""
-                    SELECT pay_item_id, payroll_run_id, period_id, is_current_period, worker_id,
-                           base_pay, allowances, overtime, gross, tax, ni, pension, other_deductions, net,
-                           tax_code, ni_category, rti_status, approved_by, changed_fields
-                    FROM silver.fact_pay_item
-                    WHERE payroll_run_id = ? OR period_id = ?
+                    SELECT worker_id, payroll_run_id, pay_period_id,
+                           SUM(amount) AS gross,
+                           MAX(net_pay) AS net,
+                           MAX(deduction_total) AS deduction_total,
+                           MAX(tax_code) AS tax_code,
+                           MAX(currency_code) AS currency_code
+                    FROM silver.payroll_line
+                    WHERE payroll_run_id = ? OR pay_period_id = ?
+                    GROUP BY worker_id, payroll_run_id, pay_period_id
                 """, (payroll_run_id, period_id))
                 pay_cols = [column[0] for column in cursor.description]
-                pay_items = [dict(zip(pay_cols, row)) for row in cursor.fetchall()]
+                pay_rows = [dict(zip(pay_cols, row)) for row in cursor.fetchall()]
 
                 cursor.close()
                 conn.close()
 
-                current_pay = [p for p in pay_items if p.get("is_current_period")]
-                prior_pay = [p for p in pay_items if not p.get("is_current_period")]
+                def _normalize(row: Dict[str, Any]) -> Dict[str, Any]:
+                    gross = float(row["gross"]) if row.get("gross") is not None else 0.0
+                    deductions = float(row["deduction_total"]) if row.get("deduction_total") is not None else 0.0
+                    net = float(row["net"]) if row.get("net") is not None else round(gross - deductions, 2)
+                    return {
+                        "pay_item_id": f"{row['worker_id']}-{row['payroll_run_id']}",
+                        "payroll_run_id": row.get("payroll_run_id"),
+                        "period_id": row.get("pay_period_id"),
+                        "worker_id": row.get("worker_id"),
+                        "gross": gross,
+                        "net": net,
+                        "other_deductions": deductions,
+                        "tax_code": row.get("tax_code"),
+                        "currency_code": row.get("currency_code"),
+                        "approved_by": None,
+                        "changed_fields": None,
+                    }
+
+                current_pay = [_normalize(r) for r in pay_rows if r.get("pay_period_id") == period_id]
+                prior_pay = [_normalize(r) for r in pay_rows if r.get("pay_period_id") != period_id]
 
                 return {
                     "payroll_run_id": payroll_run_id,
@@ -51,8 +150,7 @@ class FabricRepository:
                     "source": "FABRIC_LIVE"
                 }
             except Exception as e:
-                # Fallback to simulated reference fixture
-                pass
+                logger.warning("Live Fabric payroll dataset query failed, using fixture fallback: %s", e)
 
         # Return standardized benchmark test fixture (Stage 5/Stage 6A test set)
         return self._get_benchmark_fixture(payroll_run_id, period_id)

@@ -7,6 +7,7 @@ import logging
 from pathlib import Path
 from typing import Dict, Any, Optional
 from src.config.settings import settings
+from src.fabric.repository import fabric_repo
 from src.agents.a01_workspace_agent import PayrollAssuranceWorkspaceAgent
 from src.agents.a02_orchestrator_agent import PayrollAssuranceOrchestratorAgent
 from src.agents.a03_data_management_agent import PayrollDataManagementAgent
@@ -75,12 +76,13 @@ class FoundryAgentFactory:
             ]
 
             prompt_dir = Path(__file__).resolve().parent / "prompts"
+            fabric_context = fabric_repo.get_agent_data_context()
             for name, prompt_file in agent_meta:
                 prompt_path = prompt_dir / prompt_file
                 if not prompt_path.exists():
                     raise FileNotFoundError(f"Missing prompt file for {name}: {prompt_path}")
 
-                instructions = prompt_path.read_text(encoding="utf-8")
+                instructions = prompt_path.read_text(encoding="utf-8") + fabric_context
 
                 agent = project_client.agents.create_version(
                     agent_name=name,

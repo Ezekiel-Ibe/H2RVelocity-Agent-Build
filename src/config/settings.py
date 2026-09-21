@@ -56,6 +56,10 @@ class AppSettings(BaseModel):
     fabric_auth_type: str = Field(
         default=os.getenv("FABRIC_AUTH_TYPE", "ActiveDirectoryDefault")
     )
+    # ODBC driver name; "auto" picks the newest ODBC Driver for SQL Server installed on the host
+    fabric_odbc_driver: str = Field(
+        default=os.getenv("FABRIC_ODBC_DRIVER", "auto")
+    )
 
     # Telemetry
     app_insights_connection_string: str = Field(
