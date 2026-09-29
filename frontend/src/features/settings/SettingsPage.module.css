@@ -1,0 +1,118 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pa-space-5);
+  max-width: 760px;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.title {
+  margin: 0;
+  font-size: clamp(22px, 4cqi, 34px);
+  line-height: 1.15;
+  font-weight: var(--pa-font-weight-bold);
+  color: var(--pa-brand-blue);
+  letter-spacing: -0.5px;
+}
+
+.subtitle {
+  margin: 0;
+  font-size: var(--pa-font-size-md);
+  color: var(--pa-text-secondary);
+}
+
+.card {
+  background: var(--pa-bg-surface);
+  border: 1px solid var(--pa-border-subtle);
+  border-radius: var(--pa-radius-lg);
+  padding: var(--pa-space-6);
+  box-shadow: var(--pa-shadow-sm);
+}
+
+.cardTitle {
+  margin: 0 0 var(--pa-space-3);
+  font-size: var(--pa-font-size-lg);
+  font-weight: var(--pa-font-weight-semibold);
+  color: var(--pa-text-primary);
+}
+
+.text {
+  margin: 0 0 var(--pa-space-4);
+  font-size: var(--pa-font-size-md);
+  line-height: 1.5;
+  color: var(--pa-text-secondary);
+}
+
+.reset,
+.danger,
+.secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px var(--pa-space-4);
+  border-radius: var(--pa-radius-sm);
+  font-size: var(--pa-font-size-md);
+  font-weight: var(--pa-font-weight-semibold);
+  font-family: inherit;
+  cursor: pointer;
+  border: 1px solid var(--pa-border-default);
+  background: var(--pa-bg-surface);
+  color: var(--pa-text-primary);
+}
+
+.reset:hover {
+  border-color: var(--pa-brand-cobalt);
+  background: var(--pa-bg-hover);
+}
+
+.confirmRow {
+  display: flex;
+  align-items: center;
+  gap: var(--pa-space-3);
+  flex-wrap: wrap;
+}
+
+.confirmText {
+  font-size: var(--pa-font-size-md);
+  font-weight: var(--pa-font-weight-semibold);
+  color: var(--pa-text-primary);
+}
+
+.danger {
+  border-color: var(--pa-status-high);
+  background: var(--pa-status-high);
+  color: #fff;
+}
+
+.danger:hover {
+  filter: brightness(0.95);
+}
+
+.danger:disabled {
+  opacity: 0.7;
+  cursor: default;
+}
+
+.secondary:hover {
+  background: var(--pa-bg-hover);
+}
+
+.success {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0 0 var(--pa-space-4);
+  color: var(--pa-status-success);
+  font-weight: var(--pa-font-weight-semibold);
+}
+
+.error {
+  margin: 0 0 var(--pa-space-4);
+  color: var(--pa-status-high);
+  font-weight: var(--pa-font-weight-semibold);
+}

@@ -1,0 +1,38 @@
+.banner {
+  position: relative;
+  overflow: hidden;
+  padding: var(--pa-space-6) var(--pa-space-8);
+  border-radius: var(--pa-radius-lg);
+  background: linear-gradient(120deg, #eef3ff 0%, #f6f9ff 55%, #ffffff 100%);
+  box-shadow: var(--pa-shadow-sm);
+  min-height: 92px;
+  display: flex;
+  align-items: center;
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+}
+
+.heading {
+  margin: 0;
+  font-size: var(--pa-font-size-xl);
+  font-weight: var(--pa-font-weight-semibold);
+  color: var(--pa-text-primary);
+}
+
+.text {
+  margin: 6px 0 0;
+  font-size: var(--pa-font-size-md);
+  color: var(--pa-text-secondary);
+}
+
+.wave {
+  position: absolute;
+  inset: 0 0 0 40%;
+  background:
+    radial-gradient(120% 140% at 90% 10%, rgba(47, 107, 255, 0.35), transparent 55%),
+    radial-gradient(120% 160% at 70% 90%, rgba(77, 124, 255, 0.25), transparent 60%);
+  filter: blur(2px);
+}

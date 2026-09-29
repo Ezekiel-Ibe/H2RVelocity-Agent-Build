@@ -1,0 +1,48 @@
+.header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--pa-space-1) var(--pa-space-5);
+  flex-wrap: wrap;
+}
+
+.header > div {
+  flex: 1 1 280px;
+  min-width: 0;
+}
+
+.title {
+  margin: 0;
+  font-size: clamp(22px, 4cqi, 34px);
+  line-height: 1.15;
+  font-weight: var(--pa-font-weight-bold);
+  color: var(--pa-brand-blue);
+  letter-spacing: -0.5px;
+}
+
+.subtitle {
+  margin: 6px 0 0;
+  font-size: var(--pa-font-size-md);
+  color: var(--pa-text-secondary);
+  line-height: 1.4;
+}
+
+.tagline {
+  margin: 0;
+  flex: 0 0 auto;
+  font-size: var(--pa-font-size-md);
+  font-weight: var(--pa-font-weight-bold);
+  font-style: italic;
+  color: var(--pa-brand-blue);
+  white-space: nowrap;
+}
+
+@container mainpanel (max-width: 560px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .tagline {
+    white-space: normal;
+  }
+}
