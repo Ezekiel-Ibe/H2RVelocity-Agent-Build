@@ -1,0 +1,8 @@
+# Never commit real secrets or local env
+.env
+.venv/
+__pycache__/
+*.pyc
+
+# Local human-decision store (A09) — not a shared source of truth
+.decisions.json
