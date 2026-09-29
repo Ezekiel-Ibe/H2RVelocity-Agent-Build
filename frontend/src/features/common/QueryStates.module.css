@@ -1,0 +1,21 @@
+.status,
+.error,
+.empty {
+  padding: var(--pa-space-4);
+  border-radius: var(--pa-radius-md);
+  background: var(--pa-bg-surface);
+  border: 1px solid var(--pa-border-subtle);
+  box-shadow: var(--pa-shadow-sm);
+  font-size: var(--pa-font-size-md);
+}
+
+.error {
+  color: var(--pa-status-high);
+  background: var(--pa-status-high-bg);
+  border-color: transparent;
+}
+
+.empty {
+  color: var(--pa-text-muted);
+  text-align: center;
+}

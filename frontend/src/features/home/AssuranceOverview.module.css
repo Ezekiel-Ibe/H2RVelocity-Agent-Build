@@ -1,0 +1,121 @@
+.card {
+  background: var(--pa-bg-surface);
+  border: 1px solid var(--pa-border-subtle);
+  border-radius: var(--pa-radius-lg);
+  padding: var(--pa-space-5) var(--pa-space-6);
+  box-shadow: var(--pa-shadow-sm);
+}
+
+.heading {
+  margin: 0 0 var(--pa-space-5);
+  font-size: var(--pa-font-size-lg);
+  font-weight: var(--pa-font-weight-semibold);
+}
+
+.body {
+  display: flex;
+  align-items: center;
+  gap: var(--pa-space-6);
+  flex-wrap: wrap;
+}
+
+.donutWrap {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  flex-shrink: 0;
+}
+
+.donut {
+  width: 150px;
+  height: 150px;
+}
+
+.donutLabel {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.donutValue {
+  font-size: var(--pa-font-size-2xl);
+  font-weight: var(--pa-font-weight-bold);
+  color: var(--pa-brand-blue);
+}
+
+.donutCaption {
+  font-size: var(--pa-font-size-xs);
+  color: var(--pa-text-muted);
+}
+
+.legend {
+  flex: 1 1 200px;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.legend tr {
+  border-bottom: 1px solid var(--pa-border-subtle);
+}
+
+.legend td,
+.legend th {
+  padding: var(--pa-space-2) 0;
+  font-weight: var(--pa-font-weight-regular);
+  font-size: var(--pa-font-size-md);
+}
+
+.legendLabel {
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: var(--pa-space-2);
+  color: var(--pa-text-secondary);
+}
+
+.legendCount {
+  text-align: right;
+  font-weight: var(--pa-font-weight-semibold);
+  color: var(--pa-text-primary);
+  padding-right: var(--pa-space-4);
+}
+
+.legendPct {
+  text-align: right;
+  color: var(--pa-text-muted);
+  width: 48px;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.totalRow th,
+.totalRow td {
+  font-weight: var(--pa-font-weight-semibold);
+  color: var(--pa-text-primary);
+  border-bottom: none;
+}
+
+.footnote {
+  margin: var(--pa-space-5) 0 0;
+  font-size: var(--pa-font-size-sm);
+  color: var(--pa-text-muted);
+}
+
+.link {
+  color: var(--pa-brand-blue);
+  text-decoration: none;
+  font-weight: var(--pa-font-weight-medium);
+  white-space: nowrap;
+}
+
+.link:hover {
+  text-decoration: underline;
+}

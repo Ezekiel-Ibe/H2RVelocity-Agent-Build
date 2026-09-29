@@ -1,0 +1,78 @@
+.shell {
+  display: grid;
+  grid-template-columns: var(--pa-sidebar-width) 1fr;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.shell[data-sidebar="collapsed"] {
+  grid-template-columns: var(--pa-sidebar-collapsed-width) 1fr;
+}
+
+.body {
+  display: grid;
+  grid-template-columns: 1fr var(--pa-agent-width);
+  min-width: 0;
+  height: 100vh;
+  position: relative;
+}
+
+.shell[data-agent="closed"] .body {
+  grid-template-columns: 1fr;
+}
+
+.main {
+  min-width: 0;
+  min-height: 0;
+  height: 100vh;
+  padding: var(--pa-space-6);
+  overflow-y: auto;
+  overflow-x: hidden;
+  /* Establish a query container so content reflows to the available width,
+     regardless of sidebar/agent collapse state. */
+  container: mainpanel / inline-size;
+}
+
+.main:focus {
+  outline: none;
+}
+
+.openAgent {
+  position: fixed;
+  right: var(--pa-space-5);
+  bottom: var(--pa-space-5);
+  z-index: 50;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border: none;
+  border-radius: var(--pa-radius-pill);
+  background: var(--pa-brand-blue-bright);
+  color: var(--pa-text-on-brand);
+  font-size: 22px;
+  box-shadow: var(--pa-shadow-lg);
+  cursor: pointer;
+}
+
+.openAgent:hover {
+  background: var(--pa-brand-blue);
+}
+
+.skipLink {
+  position: absolute;
+  left: var(--pa-space-3);
+  top: -48px;
+  z-index: 100;
+  padding: var(--pa-space-2) var(--pa-space-4);
+  background: var(--pa-brand-blue);
+  color: var(--pa-text-on-brand);
+  border-radius: var(--pa-radius-sm);
+  text-decoration: none;
+  transition: top 0.15s ease;
+}
+
+.skipLink:focus {
+  top: var(--pa-space-3);
+}

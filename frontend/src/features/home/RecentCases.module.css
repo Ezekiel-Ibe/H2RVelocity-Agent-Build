@@ -1,0 +1,115 @@
+.card {
+  background: var(--pa-bg-surface);
+  border: 1px solid var(--pa-border-subtle);
+  border-radius: var(--pa-radius-lg);
+  padding: var(--pa-space-5) var(--pa-space-6);
+  box-shadow: var(--pa-shadow-sm);
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--pa-space-4);
+}
+
+.heading {
+  margin: 0;
+  font-size: var(--pa-font-size-lg);
+  font-weight: var(--pa-font-weight-semibold);
+}
+
+.viewAll {
+  font-size: var(--pa-font-size-sm);
+  color: var(--pa-brand-blue);
+  text-decoration: none;
+  font-weight: var(--pa-font-weight-medium);
+}
+
+.viewAll:hover {
+  text-decoration: underline;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--pa-font-size-md);
+}
+
+.table thead th {
+  text-align: left;
+  padding: var(--pa-space-3);
+  font-size: var(--pa-font-size-sm);
+  font-weight: var(--pa-font-weight-semibold);
+  color: var(--pa-text-muted);
+  border-bottom: 1px solid var(--pa-border-subtle);
+}
+
+.table tbody td {
+  padding: var(--pa-space-4) var(--pa-space-3);
+  border-bottom: 1px solid var(--pa-border-subtle);
+  color: var(--pa-text-secondary);
+}
+
+.table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.caseId {
+  font-weight: var(--pa-font-weight-semibold);
+  color: var(--pa-brand-blue);
+  white-space: nowrap;
+}
+
+.anomaly {
+  color: var(--pa-text-primary);
+  font-weight: var(--pa-font-weight-medium);
+}
+
+.risk {
+  font-weight: var(--pa-font-weight-bold);
+  color: var(--pa-text-primary);
+}
+
+.status {
+  display: inline-block;
+  padding: 4px var(--pa-space-3);
+  border-radius: var(--pa-radius-pill);
+  font-size: var(--pa-font-size-sm);
+  font-weight: var(--pa-font-weight-medium);
+  white-space: nowrap;
+}
+
+.status[data-tone="info"] {
+  color: var(--pa-status-info);
+  background: var(--pa-status-info-bg);
+}
+
+.status[data-tone="success"] {
+  color: var(--pa-status-success);
+  background: var(--pa-status-success-bg);
+}
+
+.status[data-tone="medium"] {
+  color: var(--pa-status-medium);
+  background: var(--pa-status-medium-bg);
+}
+
+.status[data-tone="high"] {
+  color: var(--pa-status-high);
+  background: var(--pa-status-high-bg);
+}
+
+.status[data-tone="muted"] {
+  color: var(--pa-text-secondary);
+  background: var(--pa-bg-hover);
+}
+
+@container mainpanel (max-width: 720px) {
+  .card {
+    overflow-x: auto;
+  }
+  .table {
+    min-width: 680px;
+  }
+}

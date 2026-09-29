@@ -1,0 +1,16 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "environmentName": { "value": "payassure-dev-a197" },
+    "location": { "value": "uksouth" },
+    "swaLocation": { "value": "westeurope" },
+    "sessionId": { "value": "a197e3eb-85d5-4d6b-a455-92717a9f30e7" },
+    "deployedBy": { "value": "Neil Zahra" },
+    "createdAt": { "value": "2026-09-23T13:59:45.9546467+00:00" },
+    "foundryProjectEndpoint": { "value": "https://velocity-h2r-proj-resource.services.ai.azure.com/api/projects/velocity-h2r-proj" },
+    "dataSource": { "value": "fabric" },
+    "fabricSqlEndpoint": { "value": "emmyyfoj4mkuvbfl3hzr2r5wqe-uk5syzrintyuvnan5ivreqn7ku.datawarehouse.fabric.microsoft.com" },
+    "fabricDatabase": { "value": "edm_wh_dev" }
+  }
+}

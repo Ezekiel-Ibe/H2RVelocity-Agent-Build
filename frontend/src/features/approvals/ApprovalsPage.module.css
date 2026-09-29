@@ -1,0 +1,124 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pa-space-5);
+  max-width: 1100px;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.title {
+  margin: 0;
+  font-size: clamp(22px, 4cqi, 34px);
+  line-height: 1.15;
+  font-weight: var(--pa-font-weight-bold);
+  color: var(--pa-brand-blue);
+  letter-spacing: -0.5px;
+}
+
+.subtitle {
+  margin: 0;
+  font-size: var(--pa-font-size-md);
+  line-height: 1.4;
+  color: var(--pa-text-secondary);
+  max-width: 720px;
+}
+
+.card {
+  background: var(--pa-bg-surface);
+  border: 1px solid var(--pa-border-subtle);
+  border-radius: var(--pa-radius-lg);
+  padding: var(--pa-space-5) var(--pa-space-6);
+  box-shadow: var(--pa-shadow-sm);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--pa-font-size-md);
+}
+
+.table thead th {
+  text-align: left;
+  padding: var(--pa-space-3);
+  font-size: var(--pa-font-size-sm);
+  font-weight: var(--pa-font-weight-semibold);
+  color: var(--pa-text-muted);
+  border-bottom: 1px solid var(--pa-border-subtle);
+}
+
+.table tbody td {
+  padding: var(--pa-space-4) var(--pa-space-3);
+  border-bottom: 1px solid var(--pa-border-subtle);
+  color: var(--pa-text-secondary);
+}
+
+.table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.caseId {
+  font-weight: var(--pa-font-weight-semibold);
+  color: var(--pa-brand-blue);
+  white-space: nowrap;
+}
+
+.risk {
+  font-weight: var(--pa-font-weight-bold);
+  color: var(--pa-text-primary);
+}
+
+.step {
+  font-size: var(--pa-font-size-sm);
+  color: var(--pa-text-muted);
+  white-space: nowrap;
+}
+
+.anomaly {
+  display: inline-block;
+  padding: 4px var(--pa-space-3);
+  border-radius: var(--pa-radius-sm);
+  font-size: var(--pa-font-size-sm);
+  font-weight: var(--pa-font-weight-medium);
+}
+
+.anomaly[data-severity="high"] {
+  color: var(--pa-status-high);
+  background: var(--pa-status-high-bg);
+}
+.anomaly[data-severity="medium"] {
+  color: var(--pa-status-medium);
+  background: var(--pa-status-medium-bg);
+}
+.anomaly[data-severity="low"] {
+  color: var(--pa-status-low);
+  background: var(--pa-status-low-bg);
+}
+
+.actionCol {
+  text-align: right;
+}
+
+.review {
+  color: var(--pa-brand-blue);
+  text-decoration: none;
+  font-weight: var(--pa-font-weight-semibold);
+  white-space: nowrap;
+}
+
+.review:hover {
+  text-decoration: underline;
+}
+
+@container mainpanel (max-width: 720px) {
+  .card {
+    overflow-x: auto;
+  }
+  .table {
+    min-width: 680px;
+  }
+}

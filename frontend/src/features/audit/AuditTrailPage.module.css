@@ -1,0 +1,98 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pa-space-5);
+  max-width: 1100px;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.title {
+  margin: 0;
+  font-size: clamp(22px, 4cqi, 34px);
+  line-height: 1.15;
+  font-weight: var(--pa-font-weight-bold);
+  color: var(--pa-brand-blue);
+  letter-spacing: -0.5px;
+}
+
+.subtitle {
+  margin: 0;
+  font-size: var(--pa-font-size-md);
+  line-height: 1.4;
+  color: var(--pa-text-secondary);
+  max-width: 720px;
+}
+
+.card {
+  background: var(--pa-bg-surface);
+  border: 1px solid var(--pa-border-subtle);
+  border-radius: var(--pa-radius-lg);
+  padding: var(--pa-space-6);
+  box-shadow: var(--pa-shadow-sm);
+}
+
+.timeline {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.event {
+  position: relative;
+  padding: 0 0 var(--pa-space-5) var(--pa-space-6);
+  border-left: 2px solid var(--pa-border-default);
+}
+
+.event:last-child {
+  border-left-color: transparent;
+  padding-bottom: 0;
+}
+
+.dot {
+  position: absolute;
+  left: -7px;
+  top: 2px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--pa-brand-blue-bright);
+  border: 2px solid var(--pa-bg-surface);
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: var(--pa-space-3);
+}
+
+.action {
+  font-weight: var(--pa-font-weight-semibold);
+  color: var(--pa-text-primary);
+}
+
+.control {
+  padding: 1px 6px;
+  border-radius: var(--pa-radius-sm);
+  background: var(--pa-status-info-bg);
+  color: var(--pa-brand-blue);
+  font-size: 10px;
+  font-weight: var(--pa-font-weight-bold);
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+}
+
+.detail {
+  margin: 4px 0 0;
+  font-size: var(--pa-font-size-md);
+  color: var(--pa-text-secondary);
+}
+
+.meta {
+  margin: 4px 0 0;
+  font-size: var(--pa-font-size-sm);
+  color: var(--pa-text-muted);
+}

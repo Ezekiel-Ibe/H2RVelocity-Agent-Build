@@ -1,0 +1,101 @@
+/*
+ * Payroll Assurance Agent — Design Tokens
+ * NOTE: Brand values below are PROVISIONAL placeholders isolated in the theme
+ * layer, pending official KPMG brand approval. They are not official standards.
+ */
+
+:root {
+  /* Brand (provisional) */
+  --pa-brand-navy: #0a1a5c;
+  --pa-brand-navy-2: #12245f;
+  --pa-brand-blue: #00338d;
+  --pa-brand-cobalt: #1e49e2;
+  --pa-brand-blue-bright: #2f6bff;
+  --pa-brand-accent: #4d7cff;
+
+  /* Semantic surfaces */
+  --pa-bg-app: #f4f6fb;
+  --pa-bg-surface: #ffffff;
+  --pa-bg-subtle: #f7f9fc;
+  --pa-bg-hover: #eef2fb;
+
+  /* Text */
+  --pa-text-primary: #0f1b3d;
+  --pa-text-secondary: #5b6478;
+  --pa-text-muted: #8a93a6;
+  --pa-text-on-brand: #ffffff;
+  --pa-text-on-brand-muted: #c3ccf0;
+
+  /* Borders */
+  --pa-border-subtle: #e6eaf2;
+  --pa-border-default: #d8deea;
+
+  /* Status colours */
+  --pa-status-high: #c8102e;
+  --pa-status-high-bg: #fdecee;
+  --pa-status-medium: #b8730b;
+  --pa-status-medium-bg: #fdf3e2;
+  --pa-status-low: #1a7f4b;
+  --pa-status-low-bg: #e8f6ee;
+  --pa-status-info: #00338d;
+  --pa-status-info-bg: #e9f0fb;
+  --pa-status-success: #1a7f4b;
+  --pa-status-success-bg: #e8f6ee;
+
+  /* Trend */
+  --pa-trend-up: #1a7f4b;
+  --pa-trend-down: #c8102e;
+
+  /* Data visualisation */
+  --pa-viz-high: #c8102e;
+  --pa-viz-medium: #f5a623;
+  --pa-viz-low: #2f6bff;
+  --pa-viz-track: #e6eaf2;
+
+  /* Typography */
+  --pa-font-family: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+  --pa-font-size-xs: 11px;
+  --pa-font-size-sm: 12px;
+  --pa-font-size-md: 14px;
+  --pa-font-size-lg: 16px;
+  --pa-font-size-xl: 20px;
+  --pa-font-size-2xl: 26px;
+  --pa-font-size-3xl: 34px;
+  --pa-font-weight-regular: 400;
+  --pa-font-weight-medium: 500;
+  --pa-font-weight-semibold: 600;
+  --pa-font-weight-bold: 700;
+
+  /* Spacing */
+  --pa-space-1: 4px;
+  --pa-space-2: 8px;
+  --pa-space-3: 12px;
+  --pa-space-4: 16px;
+  --pa-space-5: 20px;
+  --pa-space-6: 24px;
+  --pa-space-8: 32px;
+
+  /* Radius */
+  --pa-radius-sm: 6px;
+  --pa-radius-md: 10px;
+  --pa-radius-lg: 14px;
+  --pa-radius-pill: 999px;
+
+  /* Shadows */
+  --pa-shadow-sm: 0 1px 2px rgba(15, 27, 61, 0.06);
+  --pa-shadow-md: 0 4px 16px rgba(15, 27, 61, 0.08);
+  --pa-shadow-lg: 0 10px 30px rgba(15, 27, 61, 0.12);
+
+  /* Focus indicator */
+  --pa-focus-ring: 0 0 0 2px #ffffff, 0 0 0 4px var(--pa-brand-cobalt);
+
+  /* Layout */
+  --pa-sidebar-width: clamp(200px, 17vw, 232px);
+  --pa-sidebar-collapsed-width: 68px;
+  --pa-agent-width: clamp(300px, 24vw, 360px);
+  --pa-header-height: 88px;
+}
+
+/* Breakpoints (documented; used via media queries)
+ * sm: 640px, md: 900px, lg: 1200px, xl: 1440px
+ */

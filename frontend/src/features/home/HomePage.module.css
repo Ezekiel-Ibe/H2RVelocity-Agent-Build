@@ -1,0 +1,37 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pa-space-5);
+  max-width: 1100px;
+}
+
+.toolbar {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.twoColumn {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--pa-space-5);
+}
+
+.status,
+.error {
+  padding: var(--pa-space-4);
+  border-radius: var(--pa-radius-md);
+  background: var(--pa-bg-surface);
+  box-shadow: var(--pa-shadow-sm);
+}
+
+.error {
+  color: var(--pa-status-high);
+  background: var(--pa-status-high-bg);
+}
+
+@container mainpanel (max-width: 720px) {
+  .twoColumn {
+    grid-template-columns: 1fr;
+  }
+}
